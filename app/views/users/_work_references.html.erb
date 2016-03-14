@@ -1,13 +1,17 @@
-<ul id="users">
+<ul class='text-center'>
   <h3>References from people I've worked for</h3>
   <% @user.work_references_received.each do |reference| %>
     <li>
       <div>
-        <%= link_to reference.employer_user.first_name, reference.employer_user %>
-      <div>
+        <small>
+          Reviewed by: <%= link_to reference.employer_user.first_name, reference.employer_user %>
+        </small>
+      <div id="reference_title">
         <%= reference.work.capitalize %>
       </div>
+      <div id="reference_body">
         <%= reference.comment %>
+      </div>
       <div>
         Reviewed on
         <%= reference.created_at.strftime("%d %b. %Y") %>
@@ -15,3 +19,5 @@
     </li>
   <% end %>
 </ul>
+
+
