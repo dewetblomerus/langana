@@ -9,7 +9,7 @@ class WorkReferencesController < ApplicationController
     @work_reference = WorkReference.new(work: work_reference_params['work'],
                                         comment: work_reference_params['comment'],
                                         worker: @worker,
-                                        employer_user: current_user)
+                                        employer: current_user)
     if @work_reference.save
       redirect_to @work_reference.worker, notice: 'Thanks for giving a reference!'
     else

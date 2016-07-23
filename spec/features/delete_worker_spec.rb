@@ -5,7 +5,7 @@ describe 'Deleting a worker' do
   xit 'destroys the worker and redirects to the home page' do
     worker = FactoryGirl.create(:worker)
 
-    sign_in(worker)
+    worker_sign_in(worker)
 
     visit worker_path(worker)
 
@@ -22,7 +22,7 @@ describe 'Deleting a worker' do
   it 'automatically signs out that worker' do
     worker = FactoryGirl.create(:worker)
 
-    sign_in(worker)
+    worker_sign_in(worker)
 
     visit worker_path(worker)
     click_link 'Delete Account'

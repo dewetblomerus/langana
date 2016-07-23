@@ -27,6 +27,13 @@ RSpec.describe WorkersController, type: :controller do
 
       expect(response).to redirect_to(new_session_url)
     end
+
+    it 'cannot access show' do
+      get :show, id: @worker
+
+      expect(response).to redirect_to(new_employer_session_url)
+    end
+
   end
 
   context 'when signed in as the wrong worker' do
@@ -51,6 +58,20 @@ RSpec.describe WorkersController, type: :controller do
       delete :destroy, id: @worker
 
       expect(response).to redirect_to(root_url)
+    end
+  end
+
+  context 'when signed in as an employer' do
+
+    before do
+      @employer = FactoryGirl.create(:employer)
+      sign_in @employer
+    end
+
+    it 'can access show' do
+      get :show, id: @worker
+
+      expect(response).to render_template(:show)
     end
   end
 end

@@ -2,10 +2,10 @@ require 'rails_helper'
 require 'support/authentication'
 
 describe 'Signing out' do
-  it 'removes the user id from the session' do
-    user = FactoryGirl.create(:user)
+  it 'removes the worker id from the session' do
+    worker = FactoryGirl.create(:worker)
 
-    sign_in(user)
+    worker_sign_in(worker)
 
     click_link 'Sign Out'
 

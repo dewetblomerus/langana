@@ -19,6 +19,7 @@ gem 'mini_magick'
 gem 'sinch_sms'
 gem 'bootstrap-sass', '~>3.3.4.1'
 gem 'autoprefixer-rails', '~>5.2.0'
+gem 'devise'
 
 group :development do
   gem 'better_errors'

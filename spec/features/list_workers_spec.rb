@@ -5,7 +5,7 @@ describe 'Viewing the list of users' do
     legit_worker1 = FactoryGirl.create(:worker, first_name: 'LegitOne')
     legit_worker2 = FactoryGirl.create(:worker, first_name: 'LegitTwo')
     legit_worker3 = FactoryGirl.create(:worker, first_name: 'LegitThree')
-    employer = FactoryGirl.create(:user, role: :employer, first_name: 'Emplo')
+    employer = FactoryGirl.create(:employer, first_name: 'Emplo')
     unconfirmed_worker = FactoryGirl.create(
       :worker,
       first_name: 'Unconfirmedworker',

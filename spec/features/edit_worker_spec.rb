@@ -5,7 +5,7 @@ describe 'Editing a worker' do
     worker = FactoryGirl.create(:worker,
                                 home_language: 'English'
                                )
-    sign_in(worker)
+    worker_sign_in(worker)
     visit worker_url(worker)
     click_link 'Edit Account'
     expect(current_path).to eq(edit_worker_path(worker))
@@ -19,7 +19,7 @@ describe 'Editing a worker' do
 
   it "does not update the worker if it's invalid" do
     worker = FactoryGirl.create(:worker)
-    sign_in(worker)
+    worker_sign_in(worker)
     visit edit_worker_url(worker)
     fill_in 'worker_first_name', with: ' '
     click_button 'Update Account'

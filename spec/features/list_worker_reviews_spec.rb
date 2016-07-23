@@ -1,22 +1,22 @@
 require 'rails_helper'
 
-describe 'Given worker called Kenwin with reference from user called De Wet' do
+describe 'Given worker with a reference from an employer' do
   before do
-    @dewet = FactoryGirl.create(:user, first_name: 'De Wet', mobile_number: '0792951234')
-    @kenwin = FactoryGirl.create(:worker, first_name: 'Kenwin', mobile_number: '0729251234')
+    @employer = FactoryGirl.create(:employer, first_name: 'Empla', mobile_number: '0792951234')
+    @worker = FactoryGirl.create(:worker, first_name: 'Workie', mobile_number: '0729251234')
     @review = WorkReference.create(
       work: 'IT',
       comment: 'The best IT work ever!!!',
-      worker: @kenwin,
-      employer_user: @dewet
+      worker: @worker,
+      employer: @employer
     )
   end
 
   describe 'when users gives reviews, it lists the reviews on profile page' do
     it 'lists reviews' do
-      sign_in(@dewet)
+      sign_in(@employer)
 
-      visit worker_url(@kenwin)
+      visit worker_url(@worker)
 
       expect(page).to have_text(@review.work)
       expect(page).to have_text(@review.comment)

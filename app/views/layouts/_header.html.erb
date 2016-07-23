@@ -13,7 +13,7 @@
           <ul class="nav navbar-nav pull-right">
               <% if current_user %>
                 <li><%= link_to current_user.first_name, current_user %></li>
-                <li><%= link_to 'Confirm phone number', confirm_user_path(current_user) unless current_user.confirmed_at %></li>
+                <li><%= link_to 'Confirm phone number', confirm_worker_path(current_user) unless current_user.confirmed_at %></li>
                 <li><%= link_to 'Account Settings', edit_user_path(current_user) %></li>
                 <li><%= link_to 'Sign Out', session_path, method: :delete %></li>
               <% elsif current_worker %>

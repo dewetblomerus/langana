@@ -8,7 +8,7 @@ class WorkersController < ApplicationController
     :reset_password,
     :new_password
   ]
-  before_action :require_confirmed_employer, only: [:show]
+  before_action :require_current_worker_or_signed_in_employer, only: [:show]
   before_action :require_correct_worker, only: [:edit, :update, :destroy, :confirm]
 
   def index
@@ -22,10 +22,10 @@ class WorkersController < ApplicationController
 
   def show
     @worker = Worker.find(params[:id])
-    if current_user
-      if current_user.confirmed_at.nil?
-        # Check that user should be signed in
-        redirect_to(confirm_worker_path(current_user)) # current_worker?(@worker) || workers_path(@worker)
+    if current_worker
+      if current_worker.confirmed_at.nil?
+        # Check that worker should be signed in
+        redirect_to(confirm_worker_path(current_worker)) # current_worker?(@worker) || workers_path(@worker)
       end
     end
   end
@@ -68,6 +68,25 @@ class WorkersController < ApplicationController
     end
   end
 
+  def send_reset_code
+    if @worker = Worker.find_by(mobile_number: ApplicationHelper.format_mobile(params[:mobile_number]))
+      if @worker.verification_codes_sent > 9
+        redirect_to signin_path, alert: 'Too many attempts for today, please try again tomorrow'
+      else
+        @worker.verification_codes_sent += 1
+        @worker.save
+        ConfirmationCode.generate(@worker)
+        redirect_to new_password_worker_path(@worker)
+      end
+    else
+      redirect_to forgot_password_path, alert: 'No account with that phone number'
+    end
+  end
+
+  def new_password
+    @worker = Worker.find(params[:id])
+  end
+
   def update
     if @worker.update(worker_params)
       redirect_to @worker, notice: 'Account successfully updated!'
@@ -80,6 +99,38 @@ class WorkersController < ApplicationController
     @worker.destroy
     session[:worker_id] = nil
     redirect_to root_url, alert: 'Account successfully deleted!'
+  end
+
+  def reset_password
+    @worker = Worker.find(params[:id])
+    submitted_code = params[:worker][:mobile_confirmation_code]
+    @worker.confirmation_attempts += 1
+    @worker.save
+    if @worker.confirmation_attempts > 9
+      redirect_to forgot_password_path, alert: 'You have typed in the wrong code too many times, please try again tomorrow'
+    elsif correct_confirmation_code?(submitted_code)
+      @worker.update(worker_params)
+      @worker.mobile_confirmation_code_digest = ''
+      @worker.save
+      session[:worker_id] = @worker.id
+      redirect_to @worker, notice: 'Password reset successful!'
+    else
+      redirect_to new_password_worker_path(@worker), alert: 'Incorrect confirmation code'
+    end
+  end
+
+  def resend_confirmation
+    @worker = Worker.find(params[:id])
+    if @worker.confirmed_at
+      redirect_to @worker, notice: 'Your number is already confirmed'
+    elsif @worker.verification_codes_sent > 9
+      redirect_to @worker, alert: 'You have requested too many codes, please try again tomorrow'
+    else
+      @worker.verification_codes_sent += 1
+      @worker.save
+      ConfirmationCode.generate(@worker)
+      redirect_to confirm_worker_path(@worker), notice: 'We sent it again! Please enter the confirmation code sent to your mobile phone'
+    end
   end
 
   private
@@ -110,9 +161,25 @@ class WorkersController < ApplicationController
     redirect_to root_url unless current_worker?(@worker)
   end
 
+  def correct_worker?
+    @worker = Worker.find(params[:id])
+    current_worker?(@worker)
+  end
+
   def require_confirmed_employer
-    if current_user
-      redirect_to confirm_user_url(current_user) unless current_user.confirmed_at
+    redirect_to new_employer_session_path unless employer_signed_in?
+  end
+
+  def require_current_worker_or_signed_in_employer
+    if correct_worker? || employer_signed_in?
+      # do nothing
+    else
+      redirect_to new_employer_session_path
     end
   end
+
+  def correct_confirmation_code?(submitted_code)
+    BCrypt::Engine.hash_secret(submitted_code, @worker.mobile_code_salt) == @worker.mobile_confirmation_code_digest
+  end
+
 end

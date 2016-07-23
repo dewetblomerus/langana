@@ -4,7 +4,7 @@
     <li>
       <div>
         <small>
-          Reviewed by: <%= link_to reference.employer_user.first_name, reference.employer_user %>
+          Reviewed by: <%= link_to reference.employer.first_name, reference.employer %>
         </small>
       <div id="reference_title">
         <%= reference.work.capitalize %>
@@ -19,5 +19,3 @@
     </li>
   <% end %>
 </ul>
-
-

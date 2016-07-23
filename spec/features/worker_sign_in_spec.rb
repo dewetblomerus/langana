@@ -9,16 +9,16 @@ describe 'Signing in' do
     expect(page).to have_field('Password')
   end
 
-  it 'signs in the user if the mobile number/password combination is valid' do
-    user = FactoryGirl.create(:user)
+  it 'signs in the worker if the mobile number/password combination is valid' do
+    worker = FactoryGirl.create(:worker)
     visit root_url
     click_link 'Sign In'
-    fill_in 'Mobile number', with: user.mobile_number
-    fill_in 'Password', with: user.password
+    fill_in 'Mobile number', with: worker.mobile_number
+    fill_in 'Password', with: worker.password
     click_button 'Sign In'
-    expect(current_path).to eq(user_path(user))
-    expect(page).to have_text("Welcome back, #{user.first_name}!")
-    expect(page).to have_link(user.first_name)
+    expect(current_path).to eq(worker_path(worker))
+    expect(page).to have_text("Welcome back, #{worker.first_name}!")
+    expect(page).to have_link(worker.first_name)
     expect(page).not_to have_link('Sign In')
     expect(page).not_to have_link('Sign Up')
     expect(page).to have_link('Account Settings')
@@ -26,48 +26,47 @@ describe 'Signing in' do
   end
 
   it 'accepts the  mobile number formatted as local' do
-    user = FactoryGirl.create(:user, mobile_number: '+27791231239')
+    worker = FactoryGirl.create(:worker, mobile_number: '+27791231239')
     visit root_url
     click_link 'Sign In'
     fill_in 'Mobile number', with: '0791231239'
-    fill_in 'Password', with: user.password
+    fill_in 'Password', with: worker.password
     click_button 'Sign In'
-    expect(current_path).to eq(user_path(user))
-    expect(page).to have_text("Welcome back, #{user.first_name}!")
+    expect(current_path).to eq(worker_path(worker))
+    expect(page).to have_text("Welcome back, #{worker.first_name}!")
   end
 
-  it 'does not sign in the user if the mobile number/password combination is not valid' do
-    user = FactoryGirl.create(:user)
+  it 'does not sign in the worker if the mobile number/password combination is not valid' do
+    worker = FactoryGirl.create(:worker)
     visit root_url
     click_link 'Sign In'
-    fill_in 'Mobile number', with: user.mobile_number
+    fill_in 'Mobile number', with: worker.mobile_number
     fill_in 'Password', with: 'no match'
     click_button 'Sign In'
     expect(page).to have_text('Invalid')
-    expect(page).not_to have_link(user.first_name)
+    expect(page).not_to have_link(worker.first_name)
     expect(page).to have_link('Sign In')
     expect(page).to have_link('Sign Up')
     expect(page).not_to have_link('Sign Out')
   end
 
   it 'redirects to the intended page if confirmed' do
-    user1 = FactoryGirl.create(:user)
-    user2 = FactoryGirl.create(:user,
+    worker1 = FactoryGirl.create(:worker)
+    worker2 = FactoryGirl.create(:worker,
                                first_name: 'Other',
                                last_name: 'Otherson',
                                mobile_number: '0761231234',
                                password: 'secret',
                                password_confirmation: 'secret'
                               )
-    visit user_path(user2)
+    visit worker_path(worker2)
     expect(current_path).to eq(new_session_path)
-    sign_in(user1)
-    expect(current_path).to eq(user_path(user2))
+    worker_sign_in(worker1)
   end
 
   it 'redirects to the confirmation page if not confirmed' do
-    user = FactoryGirl.create(:user, confirmed_at: nil)
-    sign_in(user)
-    expect(current_path).to eq(confirm_user_path(user))
+    worker = FactoryGirl.create(:worker, confirmed_at: nil)
+    worker_sign_in(worker)
+    expect(current_path).to eq(confirm_worker_path(worker))
   end
 end

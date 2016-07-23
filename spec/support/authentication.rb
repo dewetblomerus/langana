@@ -1,6 +1,6 @@
-def sign_in(user)
+def worker_sign_in(worker)
   visit new_session_url
-  fill_in 'Mobile number', with: user.mobile_number
-  fill_in 'Password', with: user.password
+  fill_in 'Mobile number', with: worker.mobile_number
+  fill_in 'Password', with: worker.password
   click_button 'Sign In'
 end

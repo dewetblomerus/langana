@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Resetting a user's password" do
+describe "Resetting a worker's password" do
   it 'has a link to it' do
     visit new_session_path
     click_link('Forgot your password?')
@@ -10,20 +10,20 @@ describe "Resetting a user's password" do
 
   it "takes a mobile number & sends a reset code if it's found in the databse", :vcr do
     allow(ConfirmationCode).to receive(:random_code).and_return('abcde')
-    user = FactoryGirl.create(:user, mobile_number: '+27795555555', mobile_confirmation_code: 'abcde')
+    worker = FactoryGirl.create(:worker, mobile_number: '+27795555555', mobile_confirmation_code: 'abcde')
     visit forgot_password_path
-    fill_in 'Mobile number', with: user.mobile_number
+    fill_in 'Mobile number', with: worker.mobile_number
     click_button 'Reset password'
-    expect(current_path).to eq(new_password_user_path(user))
+    expect(current_path).to eq(new_password_worker_path(worker))
     fill_in 'Mobile confirmation code', with: 'abcde'
-    fill_in 'user_password', with: 'sdfsdf'
-    fill_in 'user_password_confirmation', with: 'sdfsdf'
+    fill_in 'worker_password', with: 'sdfsdf'
+    fill_in 'worker_password_confirmation', with: 'sdfsdf'
     click_button 'Change Password'
-    expect(current_path).to eq(user_path(user))
+    expect(current_path).to eq(worker_path(worker))
     expect(page).to have_text('Password reset successful')
   end
 
-  it "takes a mobile number & notifies the user if it's not found in the databse" do
+  it "takes a mobile number & notifies the worker if it's not found in the databse" do
     visit forgot_password_path
     fill_in 'Mobile number', with: '0797777777'
     click_button 'Reset password'
@@ -32,19 +32,19 @@ describe "Resetting a user's password" do
   end
 
   it 'only accepts the reset code one time', :vcr do
-    user = FactoryGirl.create(:user, mobile_number: '+27795555555', mobile_confirmation_code: 'abcde')
+    worker = FactoryGirl.create(:worker, mobile_number: '+27795555555', mobile_confirmation_code: 'abcde')
     visit forgot_password_path
-    fill_in 'Mobile number', with: user.mobile_number
+    fill_in 'Mobile number', with: worker.mobile_number
     click_button 'Reset password'
-    expect(current_path).to eq(new_password_user_path(user))
+    expect(current_path).to eq(new_password_worker_path(worker))
     fill_in 'Mobile confirmation code', with: 'abcde'
-    fill_in 'user_password', with: 'sdfsdf'
-    fill_in 'user_password_confirmation', with: 'sdfsdf'
+    fill_in 'worker_password', with: 'sdfsdf'
+    fill_in 'worker_password_confirmation', with: 'sdfsdf'
     click_button 'Change Password'
-    visit new_password_user_path(user)
+    visit new_password_worker_path(worker)
     fill_in 'Mobile confirmation code', with: 'abcde'
-    fill_in 'user_password', with: 'sdfsdf'
-    fill_in 'user_password_confirmation', with: 'sdfsdf'
+    fill_in 'worker_password', with: 'sdfsdf'
+    fill_in 'worker_password_confirmation', with: 'sdfsdf'
     click_button 'Change Password'
     expect(page).to have_text('Incorrect confirmation code')
     # This spec passed before the feature was implemented, I need help

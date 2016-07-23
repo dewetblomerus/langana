@@ -3,12 +3,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    if user = User.authenticate(params[:mobile_number], params[:password])
-      session[:user_id] = user.id
-      flash[:notice] = "Welcome back, #{user.first_name}!"
-      redirect_to(url_after_signin(user))
-      session[:intended_url] = nil
-    elsif worker = Worker.authenticate(params[:mobile_number], params[:password])
+    if worker = Worker.authenticate(params[:mobile_number], params[:password])
       session[:worker_id] = worker.id
       flash[:notice] = "Welcome back, #{worker.first_name}!"
       redirect_to(url_after_signin(worker))
@@ -31,7 +26,7 @@ class SessionsController < ApplicationController
     if user.confirmed_at
       session[:intended_url] || user
     else
-      confirm_user_path(user)
+      confirm_worker_path(user)
     end
   end
 end

@@ -1,0 +1,44 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://messagingapi.sinch.com/v1/sms/+27795555555
+    body:
+      encoding: UTF-8
+      string: '{"message":"Thanks for using Langana. Your code is abcde"}'
+    headers:
+      Content-Type:
+      - application/json
+      X-Timestamp:
+      - '2016-07-23T16:11:07+02:00'
+      Authorization:
+      - Application d4c987d7-d082-4bd2-abec-ba6a3909b10a:FSvJh2ShLc/RIds+/j8jDtWdfYN91Z30GZuZJI4oOSY=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Pragma:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Server:
+      - Microsoft-IIS/8.5
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Powered-By:
+      - ASP.NET
+      Date:
+      - Sat, 23 Jul 2016 14:11:08 GMT
+      Content-Length:
+      - '23'
+    body:
+      encoding: UTF-8
+      string: '{"messageId":131272779}'
+    http_version: 
+  recorded_at: Sat, 23 Jul 2016 14:11:11 GMT
+recorded_with: VCR 3.0.1

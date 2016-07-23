@@ -91,22 +91,13 @@ Worker.create!([
                  }
                ])
 
-User.create!([
+Employer.create!([
                {
                  first_name: 'Marysol',
                  last_name: 'Blomerus',
                  mobile_number: '+27722857438',
+                 email: 'marysol@blomerus.org',
                  password: 'secret',
                  password_confirmation: 'secret',
-                 confirmed_at: Time.now,
-                 role: 'employer'
-               },
-               {
-                 first_name: 'Unconfirmie',
-                 last_name: 'Unconfirmerson',
-                 mobile_number: '+27722857439',
-                 password: 'secret',
-                 password_confirmation: 'secret',
-                 role: 'employer'
                }
              ])
