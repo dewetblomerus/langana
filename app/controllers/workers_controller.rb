@@ -1,5 +1,5 @@
 class WorkersController < ApplicationController
-  before_action :require_signin, except: [
+  before_action :require_worker_signin, except: [
     :index,
     :new,
     :create,
