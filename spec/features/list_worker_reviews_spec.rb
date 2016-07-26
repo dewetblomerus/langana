@@ -12,7 +12,7 @@ describe 'Given worker with a reference from an employer' do
     )
   end
 
-  describe 'when users gives reviews, it lists the reviews on profile page' do
+  describe 'when users gives reviews, it lists the reviews on profile page', :skip do
     it 'lists reviews' do
       sign_in(@employer)
 

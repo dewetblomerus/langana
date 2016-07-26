@@ -12,10 +12,9 @@ Rails.application.routes.draw do
   end
 
   root 'workers#index'
-  get 'signin' => 'sessions#new'
+  get 'signin' => 'static_pages#sign_in'
   get 'workers_signin' => 'workers_sessions#new'
   resource :workers_session
-  resource :session
   get 'forgot_password' => 'workers#forgot_password'
   post 'forgot_password' => 'workers#send_reset_code'
 

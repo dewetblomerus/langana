@@ -10,7 +10,7 @@ class WorkersSessionsController < ApplicationController
       session[:intended_url] = nil
     else
       flash.now[:alert] = 'Invalid email/password combination!'
-      render :new
+      redirect_to(signin_path)
     end
   end
 

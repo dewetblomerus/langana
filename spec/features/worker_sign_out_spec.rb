@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'support/authentication'
+require 'support/worker_authentication'
 
 describe 'Signing out' do
   it 'removes the worker id from the session' do

@@ -11,16 +11,11 @@
         </div>
         <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav pull-right">
-              <% if current_user %>
-                <li><%= link_to current_user.first_name, current_user %></li>
-                <li><%= link_to 'Confirm phone number', confirm_worker_path(current_user) unless current_user.confirmed_at %></li>
-                <li><%= link_to 'Account Settings', edit_user_path(current_user) %></li>
-                <li><%= link_to 'Sign Out', session_path, method: :delete %></li>
-              <% elsif current_worker %>
+              <% if current_worker %>
                 <li><%= link_to current_worker.first_name, current_worker %></li>
                 <li><%= link_to 'Confirm phone number', confirm_worker_path(current_worker) unless current_worker.confirmed_at %></li>
                 <li><%= link_to 'Account Settings', edit_worker_path(current_worker) %></li>
-                <li><%= link_to 'Sign Out', session_path, method: :delete %></li>
+                <li><%= link_to 'Sign Out', workers_session_path, method: :delete %></li>
               <% else %>
                 <li><%= link_to 'Sign In', signin_path %></li>
                 <li><%= link_to 'Sign Up', choose_role_path %></li>

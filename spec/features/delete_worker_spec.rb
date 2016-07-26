@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'support/authentication'
+require 'support/worker_authentication'
 
 describe 'Deleting a worker' do
   xit 'destroys the worker and redirects to the home page' do

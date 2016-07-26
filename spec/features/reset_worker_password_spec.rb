@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "Resetting a worker's password" do
   it 'has a link to it' do
-    visit new_session_path
+    visit signin_path
     click_link('Forgot your password?')
     expect(current_path).to eq(forgot_password_path)
     expect(page).to have_text("Don't worry")

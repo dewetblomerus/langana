@@ -13,25 +13,25 @@ RSpec.describe WorkersController, type: :controller do
     it 'cannot access edit' do
       get :edit, id: @worker
 
-      expect(response).to redirect_to(new_session_url)
+      expect(response).to redirect_to(signin_url)
     end
 
     it 'cannot access update' do
       patch :update, id: @worker
 
-      expect(response).to redirect_to(new_session_url)
+      expect(response).to redirect_to(signin_url)
     end
 
     it 'cannot access destroy' do
       delete :destroy, id: @worker
 
-      expect(response).to redirect_to(new_session_url)
+      expect(response).to redirect_to(signin_url)
     end
 
     it 'cannot access show' do
       get :show, id: @worker
 
-      expect(response).to redirect_to(new_employer_session_url)
+      expect(response).to redirect_to(signin_url)
     end
 
   end

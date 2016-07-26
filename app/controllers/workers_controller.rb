@@ -6,7 +6,8 @@ class WorkersController < ApplicationController
     :forgot_password,
     :send_reset_code,
     :reset_password,
-    :new_password
+    :new_password,
+    :show
   ]
   before_action :require_current_worker_or_signed_in_employer, only: [:show]
   before_action :require_correct_worker, only: [:edit, :update, :destroy, :confirm]
@@ -174,7 +175,7 @@ class WorkersController < ApplicationController
     if correct_worker? || employer_signed_in?
       # do nothing
     else
-      redirect_to new_employer_session_path
+      redirect_to signin_path
     end
   end
 

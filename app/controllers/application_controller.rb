@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   def require_worker_signin
     unless current_worker
       session[:intended_url] = request.url
-      redirect_to new_session_url, alert: 'Please sign in first'
+      redirect_to signin_url, alert: 'Please sign in first'
     end
   end
 

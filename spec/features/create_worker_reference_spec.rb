@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'support/authentication'
+require 'support/worker_authentication'
 
 describe 'Creating a new work reference', :skip do
   it "saves work reference and shows reference on the user's detail page" do
